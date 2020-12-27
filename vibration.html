@@ -5,6 +5,9 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="apple-touch-icon" href="icon.png">
 	
 	<title>Exploración de sensores</title>
 	
@@ -15,9 +18,9 @@
 	<div style="margin: 20px 20px;">
 		<h4>Exploración de los Sensores del Equipo</h4>
 		
-		<h2>Notificación</h2>
+		<h2>Vibración</h2>
 		
-		<button onclick="requestPermission()" style="width: 100px; height: 20px;">Notificar</button>
+		<button onclick="vibrate()" style="width: 100px; height: 20px;">Vibrar</button>
 		
 		<p id="notify"></p>
 	</div>
@@ -25,28 +28,36 @@
 	
 	
 	<script type="text/javascript">
-		
-		/*
-		 * ¡PENDIENTE!
-		 * Para que las noticicaciones funcionen en el movil hay que instalar 
-		 * y configurar un Service Worker.
-		 * Queda pendiente de hacer para que la funcionalidad quede completa.
-		 */
-		
-		if ('Notification' in window) {
-			document.getElementById('notify').innerText = 'Puede notificar...';
-			
-			Notification.requestPermission().then((result) => {
-				console.log(result);
-			});
-			
+		// Detecta si el dispositivo qtene disponible la función de vibración.
+		if ("vibrate" in navigator) {
+			document.getElementById('notify').innerText = "¡Si vibra! xD";
 		} else {
-			document.getElementById('notify').innerText = 'No puede notificar...';
+			document.getElementById('notify').innerText = "¡No vibra! :(";
 		}
-	
-		function requestPermission() {	
-			var n = new Notification('Hi, user xD');
+		
+		/**
+		 * This function makes the device vibrate if available.
+		 * 
+		 * navigator.vibrate() recibe un int que representa el intervalo de 
+		 * vibración o un array de int que representa de forma alternada 
+		 * intervalos de vibreción y silencio.
+		 * 
+		 * @return {void}
+		 */
+		function vibrate() {
+			navigator.vibrate([200, 100, 200]);
 		}
+		
+		// Un arreglo de valores describen que las vibraciones serán por 
+		// períodos alternados, es decir, el dispositivo vibrará luego no lo 
+		// hará, así según la secuencia definida. Cada valor en el arreglo es 
+		// convertido a entero para luego ser interpretado alternadamente como 
+		// el tiempo que el dispositivo debe vibrar y el tiempo que no debe 
+		// vibrar. Ejemplo:
+		// 
+		// window.navigator.vibrate([200, 100, 200]);
+		// 
+		// Según este ejemplo el dispositivo vibrará por 200ms, luego se detiene por 100ms y luego vibra 200ms.
 		
 	</script>
 </body>
