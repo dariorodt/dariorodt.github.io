@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<title>Exploración de sensores</title>
+	
+	<link rel="stylesheet" href="">
+</head>
+<body>
+	<center>
+	<div style="margin: 20px 20px;">
+		<h4>Exploración de los Sensores del Equipo</h4>
+		
+		<h2>Cámara</h2>
+		
+		<button onclick="" style="width: 100px;">Tomar foto</button>
+		
+		<p id="notify"></p>
+	</div>
+	</center>
+	
+	
+	<script type="text/javascript">
+				
+		if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
+			document.getElementById('notify').innerText = 'Cámara disponible';
+			
+			async function getDevices() {
+				const devices = await navigator.mediaDevices.enumerateDevices();
+				document.getElementById('notify').innerText += devices;
+			}
+		} else {
+			document.getElementById('notify').innerText = 'Cámara no disponible';
+		}
+		
+		navigator.mediaDevices.enumerateDevices()
+		.then(function(devices) {
+			devices.forEach(function(device) {
+				document.getElementById('notify').innerText = 
+					device.kind + ": " + device.label +
+					" id = " + device.deviceId + "\n";
+			});
+		})
+		.catch(function(err) {
+			console.log(err.name + ": " + err.message);
+		});
+		
+	</script>
+</body>
+</html>
